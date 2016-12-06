@@ -1,7 +1,7 @@
 "use strict"
 module.exports = class editor {
-    constructor() {
-
+    constructor(main) {
+        this.main = main;
     }
 
 
