@@ -16,9 +16,18 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 module.exports = class editor {
-    constructor(main) {
+    constructor(main, title, file, call) {
         this.main = main;
+        this.title = title
+        this.file = file.split("\n");
+        this.call = call;
+        this.cursor = {
+            x: 0,
+            y: 0
+        }
+        this.update()
     }
     update() {
 
@@ -30,6 +39,7 @@ module.exports = class editor {
 
             break;
         case "LEFT":
+
             break;
         case "RIGHT":
             break;
@@ -38,6 +48,7 @@ module.exports = class editor {
         case "DOWN":
             break;
         case "ESC":
+
             break;
         case "BACK":
 
