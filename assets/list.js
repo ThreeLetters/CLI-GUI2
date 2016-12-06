@@ -83,7 +83,9 @@ module.exports = class list {
         }
         this.update()
     }
+    onRemove() {
 
+    }
     update() {
         var a = Math.floor(this.vis.height / 2) - this.options.length - 2;
 

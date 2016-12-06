@@ -31,6 +31,9 @@ module.exports = class Box {
         this.call = calls;
         this.update()
     }
+    onRemove() {
+
+    }
     genOptions(opt, c) {
         var final = [];
 
