@@ -13,10 +13,16 @@ module.exports = class CLIGUI {
         this.asset.stop()
         this.visual.stop()
     }
+    done() {
+        this.visual.done()
+        this.asset.done()
+    }
     reset() {
         this.input.reset()
         this.asset.reset()
         this.visual.reset()
     }
-
+    list(a, b, c) {
+        this.asset.list(a, b, c)
+    }
 }
