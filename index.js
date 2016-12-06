@@ -45,4 +45,7 @@ module.exports = class CLIGUI {
     box(a, b, c, d, e, f, g) {
         this.asset.box(a, b, c, d, e, f, g)
     }
+    editor(a) {
+        this.asset.editor(a)
+    }
 }

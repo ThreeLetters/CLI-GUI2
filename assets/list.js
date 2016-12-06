@@ -67,7 +67,7 @@ module.exports = class list {
             break;
         case "ENTER":
             if (typeof this.call == "function") {
-                this.call(this.chosen, this.main)
+                this.call(this.main, this.chosen)
 
                 return;
             }

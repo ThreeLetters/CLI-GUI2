@@ -98,7 +98,7 @@ module.exports = class Box {
             break;
         case "ENTER":
             if (typeof this.call == "function") {
-                this.call(this.chosen, this.main)
+                this.call(this.main, this.chosen)
 
                 return;
             }

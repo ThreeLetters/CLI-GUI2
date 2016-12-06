@@ -25,8 +25,8 @@ module.exports = class editor {
         this.file = file.split("\n");
 
         this.call = call;
-        this.flicker = false;
-
+        this.flicker = true;
+        this.lastx = false;
         this.cursor = {
             x: 0,
             y: 0,
@@ -38,31 +38,45 @@ module.exports = class editor {
     }
     init() {
         this.interval = setInterval(function () {
-            this.flicker != this.flicker
+            this.flicker = !this.flicker
             this.update()
+
         }.bind(this), 700)
     }
     onRemove() {
         clearInterval(this.interval)
     }
-    addCursor(line) {
+    addCursor(line, ind, k) {
 
-        return line.splice(this.cursor.x - 1, 0, "\x1b[47m\x1b[30m").splice(this.cursor.x + 1, 0, '\x1b[0m\x1b[37m\x1b[40m')
+        if (ind == this.cursor.y && this.flicker) {
+            var x = (k) ? this.cursor.x - k : this.cursor.x
+            return line.slice(0, x) + '\x1b[47m\x1b[30m' + line.slice(x, x + 1) + "\x1b[0m\x1b[37m\x1b[40m" + line.slice(x + 1);
+        } else {
+            return line
+        }
     }
     update() {
         var y = 0;
         this.vis.setRow(y, this.vis.centerHor(this.title + " press Esc to exit"))
         y++;
-        var b = this.vis.height - 2
+        var b = this.vis.height - 3
         var buf = Math.floor(this.cursor.y / b) * b
         for (var i = 0; i < this.vis.height - 3; i++) {
             var ind = buf + i
-            var line = this.file[ind].split("")
-            if (ind == this.cursor.y && this.flicker) {
-                line = this.addCursor(line)
+            if (!this.file[ind]) {
+                var t = this.addCursor(this.vis.fill(""), ind)
+                this.vis.setRow(y++, t, '\x1b[0m\x1b[37m\x1b[40m')
+
+                continue;
             }
-            this.vis.setRow(y, line.join(""), '\x1b[0m\x1b[37m\x1b[40m')
+            var line = this.vis.fill(this.file[ind])
+
+            line = this.addCursor(line, ind)
+
+            this.vis.setRow(y++, line, '\x1b[0m\x1b[37m\x1b[40m')
         }
+        this.vis.setRow(y, this.vis.fill('Ln ' + (this.cursor.y + 1) + ' Col ' + (this.cursor.x + 1) + '      ' + this.file.length + ' lines'))
+        this.vis.update()
     }
 
     onKey(key) {
@@ -94,28 +108,88 @@ module.exports = class editor {
         }
     }
     key(key) {
-
+        this.flicker = true;
+        var line = this.file[this.cursor.y]
+        if (!line) this.file[this.cursor.y] = "";
+        else
+            this.file[this.cursor.y] = line.slice(0, this.cursor.x) + key + line.slice(this.cursor.x)
+        this.cursor.x++;
+        this.update()
     }
     enter() {
-
+        this.flicker = true;
+        var line = this.file[this.cursor.y]
+        if (!line)
+            this.file.splice(this.cursor.y + 1, 0, "")
+        else {
+            var a = line.slice(this.cursor.x)
+            this.file[this.cursor.y] = line.slice(0, this.cursor.x)
+            this.file.splice(this.cursor.y + 1, 0, a)
+        }
+        this.cursor.y++;
+        this.cursor.x = 0;
+        this.update()
     }
     left() {
-
+        this.flicker = true;
+        if (this.cursor.x <= 0) return;
+        this.cursor.x--;
+        this.update()
     }
     right() {
-
+        this.flicker = true;
+        var line = this.file[this.cursor.y]
+        if (!line || this.cursor.x >= line.length) return;
+        this.cursor.x++;
+        this.update()
     }
     up() {
+        this.flicker = true;
+        if (this.cursor.y <= 0) return;
+        this.cursor.y--;
+        var line = this.file[this.cursor.y]
+        if (!line || line.length < this.cursor.x) {
+            this.lastx = this.cursor.x
+            this.cursor.x = (line) ? line.length : 0;
+        } else if (line && this.lastx && this.lastx <= line.length) {
+            this.cursor.x = this.lastx
+        }
 
+        this.update()
     }
     down() {
+        this.flicker = true;
 
+        if (this.cursor.y >= this.file.length) return;
+        this.cursor.y++;
+        var line = this.file[this.cursor.y]
+        if (!line || line.length < this.cursor.x) {
+            this.lastx = this.cursor.x
+            this.cursor.x = (line) ? line.length : 0;
+        } else if (line && this.lastx && this.lastx <= line.length) {
+            this.cursor.x = this.lastx
+        }
+        this.update()
     }
     esc() {
-
+        this.flicker = true;
+        this.call(this.main, this.file)
     }
     back() {
+        this.flicker = true;
+        var line = this.file[this.cursor.y]
+        if (this.cursor.x > 0) {
+            this.file[this.cursor.y] = line.slice(0, this.cursor.x - 1) + line.slice(this.cursor.x)
+            this.cursor.x--;
+        } else {
+            var a = line ? line.slice(this.cursor.x) : false;
+            this.file.splice(this.cursor.y, 1)
 
+            this.cursor.y--;
+            this.cursor.x = (this.file[this.cursor.y]) ? this.file[this.cursor.y].length : 0;
+            if (a) this.file[this.cursor.y] += a
+        }
+        this.update()
     }
 
 
