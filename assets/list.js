@@ -8,6 +8,7 @@ module.exports = class list {
         this.options = this.genOptions(opt, c)
 
         this.chosen = 0;
+        this.update()
     }
     genOptions(opt, c) {
         var final = [];
