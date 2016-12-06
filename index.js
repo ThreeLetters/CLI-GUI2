@@ -25,4 +25,7 @@ module.exports = class CLIGUI {
     list(a, b, c) {
         this.asset.list(a, b, c)
     }
+    box(a, b, c, d, e, f, g) {
+        this.asset.box(a, b, c, d, e, f, g)
+    }
 }
