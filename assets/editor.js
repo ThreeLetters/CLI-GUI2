@@ -61,6 +61,7 @@ module.exports = class editor {
         y++;
         var b = this.vis.height - 3
         var buf = Math.floor(this.cursor.y / b) * b
+        var bufx = Math.floor(this.cursor.x / this.vis.width) * this.vis.width
         for (var i = 0; i < this.vis.height - 3; i++) {
             var ind = buf + i
             if (!this.file[ind]) {
@@ -69,9 +70,9 @@ module.exports = class editor {
 
                 continue;
             }
-            var line = this.vis.fill(this.file[ind])
+            var line = this.vis.fill(this.file[ind].substr(bufx, this.vis.width))
 
-            line = this.addCursor(line, ind)
+            line = this.addCursor(line, ind, bufx)
 
             this.vis.setRow(y++, line, '\x1b[0m\x1b[37m\x1b[40m')
         }
