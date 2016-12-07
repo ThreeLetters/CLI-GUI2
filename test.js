@@ -4,10 +4,10 @@ b.editor('./assets/editor.js')
     /*
     b.list("hello", {
         hello: function (a) {
-            b.box(20, 10, 20, 5, "lol", {
+            b.box(-10, -2.5, 20, 5, "lol", {
                 hello: function (a) {
-                    a.stop()
-                    throw "[hello]"
+                    a.done()
+
                 },
                 bye: function (a) {
                     a.stop()

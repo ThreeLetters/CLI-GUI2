@@ -29,6 +29,9 @@ module.exports = class Box {
         this.options = this.genOptions(opt, calls)
         this.chosen = 0;
         this.call = calls;
+
+    }
+    init() {
         this.update()
     }
     onRemove() {
@@ -62,18 +65,19 @@ module.exports = class Box {
         })
         return final;
     }
-    wrap(arr, maxlen) {
+    wrap(arr, maxlen, k) {
+        k = k || 0
         var results = [];
 
         while (0 == 0) {
-            if (arr.length < maxlen) {
+            if (arr.length + k < maxlen) {
                 results.push(arr);
                 break;
             }
             var s = arr.slice(0, maxlen);
             var index = s.lastIndexOf(" ");
             if (index != -1) {
-                results.pushoncat(s.slice(0, index))
+                results.push(s.slice(0, index))
                 arr = arr.slice(index + 1)
             } else {
                 results.push(arr);
@@ -124,6 +128,7 @@ module.exports = class Box {
     }
 
     update() {
+        this.vis.getClearence(this)
         var a = this.y
         for (var i = 0; i < this.height; i++) {
 
@@ -150,11 +155,11 @@ module.exports = class Box {
         }
 
 
-        text = this.wrap(text, this.width)
+        text = this.wrap(text, this.width, -2)
 
 
         for (var i = 0; i < text.length; i++) {
-            this.vis.setRow(a, this.vis.centerHor(text[i].join(""), this.width, text[i].length - 2), '\x1b[30m\x1b[47m', 1, this.x);
+            this.vis.setRow(a, this.vis.centerHorArray(text[i], this.width, text[i].length - 2), '\x1b[30m\x1b[47m', 1, this.x);
             a++
         }
         this.vis.update()

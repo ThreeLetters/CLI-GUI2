@@ -33,8 +33,8 @@ module.exports = class editor {
             x1: 0,
             x2: 0
         }
-        this.init()
-        this.update()
+
+
     }
     init() {
         this.interval = setInterval(function () {
@@ -42,6 +42,7 @@ module.exports = class editor {
             this.update()
 
         }.bind(this), 700)
+        this.update()
     }
     onRemove() {
         clearInterval(this.interval)
@@ -56,7 +57,9 @@ module.exports = class editor {
         }
     }
     update() {
+        if (!this.vis.getClearence(this)) return;
         var y = 0;
+        this.vis.reset()
         this.vis.setRow(y, this.vis.centerHor(this.title + " press Esc to exit"))
         y++;
         var b = this.vis.height - 3
@@ -65,7 +68,7 @@ module.exports = class editor {
         for (var i = 0; i < this.vis.height - 3; i++) {
             var ind = buf + i
             if (!this.file[ind]) {
-                var t = this.addCursor(this.vis.fill(""), ind)
+                var t = this.addCursor(this.vis.fill(" "), ind)
                 this.vis.setRow(y++, t, '\x1b[0m\x1b[37m\x1b[40m')
 
                 continue;
@@ -111,7 +114,7 @@ module.exports = class editor {
     key(key) {
         this.flicker = true;
         var line = this.file[this.cursor.y]
-        if (!line) this.file[this.cursor.y] = "";
+        if (!line) this.file[this.cursor.y] = key;
         else
             this.file[this.cursor.y] = line.slice(0, this.cursor.x) + key + line.slice(this.cursor.x)
         this.cursor.x++;
@@ -174,7 +177,7 @@ module.exports = class editor {
     }
     esc() {
         this.flicker = true;
-        this.call(this.main, this.file)
+        this.call(this.main, this.file.join("\n"))
     }
     back() {
         this.flicker = true;
@@ -183,6 +186,7 @@ module.exports = class editor {
             this.file[this.cursor.y] = line.slice(0, this.cursor.x - 1) + line.slice(this.cursor.x)
             this.cursor.x--;
         } else {
+            if (this.cursor.y <= 0) return;
             var a = line ? line.slice(this.cursor.x) : false;
             this.file.splice(this.cursor.y, 1)
 

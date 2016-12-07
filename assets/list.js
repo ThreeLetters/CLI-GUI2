@@ -25,6 +25,10 @@ module.exports = class list {
         this.options = this.genOptions(opt, c)
 
         this.chosen = 0;
+
+
+    }
+    init() {
         this.update()
     }
     genOptions(opt, c) {
@@ -87,6 +91,7 @@ module.exports = class list {
 
     }
     update() {
+        this.vis.getClearence(this)
         var a = Math.floor(this.vis.height / 2) - this.options.length - 2;
 
         this.vis.setRow(a, this.vis.centerHor(this.title))

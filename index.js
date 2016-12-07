@@ -19,11 +19,13 @@
 const AssetService = require('./lib/assetService.js')
 const InputService = require('./lib/inputService.js')
 const VisualService = require('./lib/visualService.js')
+const Coords = require('./lib/coords.js')
 module.exports = class CLIGUI {
     constructor() {
         this.visual = new VisualService(this)
         this.input = new InputService(this)
         this.asset = new AssetService(this)
+        this.coords = new Coords(this.visual)
     }
     stop() {
         this.input.stop()
@@ -43,9 +45,27 @@ module.exports = class CLIGUI {
         this.asset.list(a, b, c)
     }
     box(a, b, c, d, e, f, g) {
-        this.asset.box(a, b, c, d, e, f, g)
+        var pos = this.coords.toReal(a, b, c, d)
+
+        this.asset.box(pos.x, pos.y, pos.width, pos.height, e, f, g)
     }
-    editor(a) {
-        this.asset.editor(a)
+    editor(h, c, don) {
+        if (don)
+            this.asset.editor(h, c)
+        else
+            this.asset.editor(h, function (a, file) {
+                a.box(-12.5, -3, 25, 6, "Save?", {
+                    save: function (a) {
+                        require('fs').writeFileSync(h, file)
+                        a.done()
+                        a.done()
+                        if (c) c(this, file)
+                    },
+                    cancel: function (a) {
+                        a.done()
+                    }
+
+                })
+            })
     }
 }
