@@ -54,12 +54,17 @@ module.exports = class CLIGUI {
             this.asset.editor(h, c)
         else
             this.asset.editor(h, function (a, file) {
-                a.box(-12.5, -3, 25, 6, "Save?", {
+                a.box(-12.5, -3, 40, 6, "Save?", {
                     save: function (a) {
                         require('fs').writeFileSync(h, file)
                         a.done()
                         a.done()
-                        if (c) c(this, file)
+                        if (c) c(this, file,true)
+                    },
+                    dontsave: function (a) {
+                      a.done()
+                        a.done()
+                          if (c) c(this, file,false)
                     },
                     cancel: function (a) {
                         a.done()
