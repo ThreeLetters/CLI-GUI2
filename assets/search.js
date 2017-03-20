@@ -46,37 +46,37 @@ module.exports = class search {
     genOptions(opt, c) { // generate options
 
         /*
-        four methods
+            four methods
         
-        1. 
+            1. 
         
-        options: ["a","b","c"]
-        call: function(main,choice) {
+            options: ["a","b","c"]
+            call: function(main,choice) {
         
-        2. 
+            2. 
         
-        options: ["a","b","c"]
-        call: [function(){},function(){},function(){}]
+            options: ["a","b","c"]
+            call: [function(){},function(){},function(){}]
         
-        3. 
+            3. 
         
-        options/call: [{name: "a",call: function() {}}]
+            options/call: [{name: "a",call: function() {}}]
         
-        4.
+            4.
         
-        options/call: {a: function() {}}
+            options/call: {a: function() {}}
 
 
-        final output:
+            final output:
         
-        [
-        {
-        vis: (something),
-        call: (something)
-        }
+            [
+            {
+            vis: (something),
+            call: (something)
+            }
         
-        ]
-        */
+            ]
+            */
 
         var final = [];
         if (!opt[0] || !opt[0].name) { // not object array
@@ -166,15 +166,18 @@ module.exports = class search {
                 visible = visible.slice(0, pos) + '\x1b[47m\x1b[30m' + (c ? c : " ") + "\x1b[37m\x1b[40m" + visible.slice(pos + 1);
 
             }
+            if (this.text.length && this.results[0] && this.text.length < this.results[0].name.length) visible += "\x1b[2m" + this.results[0].name.substr((this.flicker) ? this.text.length + 1 : this.text.length) + "\x1b[0m";
         } else if (!this.text.length) {
             visible = "\x1b[2mSearch";
+        } else if (this.results[0]) {
+            visible = this.results[0].name;
         }
-        if (this.text.length && this.results[0] && this.text.length < this.results[0].name.length) visible += "\x1b[2m" + this.results[0].name.substr((this.flicker) ? this.text.length + 1 : this.text.length) + "\x1b[0m"
+
 
         this.vis.setRow(1, this.vis.fill(visible), "\x1b[40m\x1b[37m");
 
 
-
+        this.vis.setRow(2, this.vis.centerHor((this.text.length ? ("Searching for: " + this.text.join("") + ", ") : "") + this.results.length + " Result" + ((this.results.length == 1) ? "" : "s")))
 
 
         var chosen = Math.max(0, this.chosen)
