@@ -36,7 +36,7 @@ module.exports = class editor {
 
 
     }
-    init() {
+    init() { // add flicker
         this.interval = setInterval(function () {
             this.flicker = !this.flicker
             this.update()
@@ -44,10 +44,10 @@ module.exports = class editor {
         }.bind(this), 700)
         this.update()
     }
-    onRemove() {
+    onRemove() { // remove flicker
         clearInterval(this.interval)
     }
-    addCursor(line, ind, k) {
+    addCursor(line, ind, k) { // adds cursor to string
 
         if (ind == this.cursor.y && this.flicker) {
             var x = (k) ? this.cursor.x - k : this.cursor.x
@@ -56,8 +56,8 @@ module.exports = class editor {
             return line
         }
     }
-    update() {
-        if (!this.vis.getClearence(this)) return;
+    update() { // frame updates
+        if (!this.vis.getClearance(this)) return;
         var y = 0;
         this.vis.reset()
         this.vis.setRow(y, this.vis.centerHor(this.title + " press Esc to exit"))
@@ -83,7 +83,7 @@ module.exports = class editor {
         this.vis.update()
     }
 
-    onKey(key) {
+    onKey(key) { // capture keypresses
         switch (key) {
         case "ENTER":
             this.enter()
@@ -111,7 +111,7 @@ module.exports = class editor {
             break;
         }
     }
-    key(key) {
+    key(key) { // key press
         this.flicker = true;
         var line = this.file[this.cursor.y]
         if (!line) this.file[this.cursor.y] = key;
@@ -120,7 +120,7 @@ module.exports = class editor {
         this.cursor.x++;
         this.update()
     }
-    enter() {
+    enter() { // enter key
         this.flicker = true;
         var line = this.file[this.cursor.y]
         if (!line)
@@ -134,20 +134,20 @@ module.exports = class editor {
         this.cursor.x = 0;
         this.update()
     }
-    left() {
+    left() { // left key
         this.flicker = true;
         if (this.cursor.x <= 0) return;
         this.cursor.x--;
         this.update()
     }
-    right() {
+    right() { // right key
         this.flicker = true;
         var line = this.file[this.cursor.y]
         if (!line || this.cursor.x >= line.length) return;
         this.cursor.x++;
         this.update()
     }
-    up() {
+    up() { // up key
         this.flicker = true;
         if (this.cursor.y <= 0) return;
         this.cursor.y--;
@@ -161,7 +161,7 @@ module.exports = class editor {
 
         this.update()
     }
-    down() {
+    down() { // down key
         this.flicker = true;
 
         if (this.cursor.y >= this.file.length) return;
@@ -175,11 +175,11 @@ module.exports = class editor {
         }
         this.update()
     }
-    esc() {
+    esc() { // esc key
         this.flicker = true;
         this.call(this.main, this.file.join("\n"))
     }
-    back() {
+    back() { // back key
         this.flicker = true;
         var line = this.file[this.cursor.y]
         if (this.cursor.x > 0) {

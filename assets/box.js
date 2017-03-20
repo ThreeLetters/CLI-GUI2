@@ -162,7 +162,7 @@ module.exports = class Box {
     }
 
     update() {
-        this.vis.getClearence(this)
+
         var a = this.y
         for (var i = 0; i < this.height; i++) {
 

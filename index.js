@@ -74,4 +74,12 @@ module.exports = class CLIGUI {
                 })
             })
     }
+    prompt(a, b, c) {
+        this.asset.prompt(a, b, c)
+
+    }
+    search(a, b, c) {
+        this.asset.search(a, b, c)
+
+    }
 }
