@@ -107,7 +107,7 @@ module.exports = class table {
     }
     enter() {
         if (data.call) {
-
+            data.call(this.main, this.chosen)
         }
     }
 }
