@@ -37,32 +37,66 @@ module.exports = class Box {
     onRemove() {
 
     }
-    genOptions(opt, c) {
+    genOptions(opt, c) { // generate options
+
+        /*
+        four methods
+        
+        1. 
+        
+        options: ["a","b","c"]
+        call: function(main,choice) {
+        
+        2. 
+        
+        options: ["a","b","c"]
+        call: [function(){},function(){},function(){}]
+        
+        3. 
+        
+        options/call: [{name: "a",call: function() {}}]
+        
+        4.
+        
+        options/call: {a: function() {}}
+
+
+        final output:
+        
+        [
+        {
+        vis: (something),
+        call: (something)
+        }
+        
+        ]
+        */
+
         var final = [];
-
-
-
-        if (opt[0]) {
-            if (typeof c == "object") {
-                opt.forEach((o, i) => {
-                    if (!o.call && c[i]) o.call = c[i]
-                })
-            }
-            final = opt
-        } else {
-            for (var i in opt) {
-                final.push({
-                    name: i,
-                    call: opt[i]
-                })
+        if (!opt[0] || !opt[0].name) { // not object array
+            if (!opt[0]) { // Is an object
+                for (var i in opt) {
+                    final.push({
+                        name: i,
+                        call: opt[i]
+                    })
+                }
+            } else { // is an array
+                for (var i = 0; i < opt.length; i++) {
+                    final.push({
+                        name: opt[i],
+                        call: (typeof c != "function") ? c[i] : null
+                    })
+                }
             }
 
         }
 
+
         final.forEach((f) => {
 
             f.vis = this.vis.fill(f.name)
-        })
+        });
         return final;
     }
     wrap(arr, maxlen, k) {

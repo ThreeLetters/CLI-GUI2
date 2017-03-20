@@ -26,6 +26,7 @@ module.exports = class CLIGUI {
         this.input = new InputService(this)
         this.asset = new AssetService(this)
         this.coords = new Coords(this.visual)
+
     }
     stop() {
         this.input.stop()
@@ -59,12 +60,12 @@ module.exports = class CLIGUI {
                         require('fs').writeFileSync(h, file)
                         a.done()
                         a.done()
-                        if (c) c(this, file,true)
+                        if (c) c(this, file, true)
                     },
                     dontsave: function (a) {
-                      a.done()
                         a.done()
-                          if (c) c(this, file,false)
+                        a.done()
+                        if (c) c(this, file, false)
                     },
                     cancel: function (a) {
                         a.done()

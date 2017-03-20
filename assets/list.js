@@ -31,32 +31,66 @@ module.exports = class list {
     init() {
         this.update()
     }
-    genOptions(opt, c) {
+    genOptions(opt, c) { // generate options
+
+        /*
+        four methods
+        
+        1. 
+        
+        options: ["a","b","c"]
+        call: function(main,choice) {
+        
+        2. 
+        
+        options: ["a","b","c"]
+        call: [function(){},function(){},function(){}]
+        
+        3. 
+        
+        options/call: [{name: "a",call: function() {}}]
+        
+        4.
+        
+        options/call: {a: function() {}}
+
+
+        final output:
+        
+        [
+        {
+        vis: (something),
+        call: (something)
+        }
+        
+        ]
+        */
+
         var final = [];
-
-
-
-        if (opt[0]) {
-            if (typeof c == "object") {
-                opt.forEach((o, i) => {
-                    if (!o.call && c[i]) o.call = c[i]
-                })
-            }
-            final = opt
-        } else {
-            for (var i in opt) {
-                final.push({
-                    name: i,
-                    call: opt[i]
-                })
+        if (!opt[0] || !opt[0].name) { // not object array
+            if (!opt[0]) { // Is an object
+                for (var i in opt) {
+                    final.push({
+                        name: i,
+                        call: opt[i]
+                    })
+                }
+            } else { // is an array
+                for (var i = 0; i < opt.length; i++) {
+                    final.push({
+                        name: opt[i],
+                        call: (typeof c != "function") ? c[i] : null
+                    })
+                }
             }
 
         }
 
+
         final.forEach((f) => {
 
             f.vis = this.vis.fill(f.name)
-        })
+        });
         return final;
     }
     onKey(key) {
@@ -91,19 +125,51 @@ module.exports = class list {
 
     }
     update() {
-        this.vis.getClearence(this)
-        var a = Math.floor(this.vis.height / 2) - this.options.length - 2;
+        var len = this.options.length;
+        var max = this.vis.height - 5;
+
+        var a = Math.max(Math.floor(this.vis.height / 2) - len - 2, 0);
 
         this.vis.setRow(a, this.vis.centerHor(this.title))
         a += 2
-        for (var i = 0; i < this.options.length; i++) {
-            a++;
-            if (i == this.chosen) {
 
-                this.vis.setRow(a, this.options[i].vis, '\x1b[47m\x1b[30m');
+
+
+
+        var counter = Math.floor(this.chosen / max);
+
+        if (counter) this.vis.setRow(a, this.vis.centerHor("▲ ▲ ▲ ▲ ▲"));
+        else {
+            this.vis.clearRow(a);
+            this.vis.updateRow(a)
+        }
+
+        var pointer = counter * max
+        for (var i = 0; i < max && pointer < len; i++, pointer++) {
+            a++;
+
+            if (pointer == this.chosen) {
+
+                this.vis.setRow(a, this.options[pointer].vis, '\x1b[47m\x1b[30m');
             } else
-                this.vis.setRow(a, this.options[i].vis);
+                this.vis.setRow(a, this.options[pointer].vis);
+        }
+
+
+
+        //  console.log(pointer, max)
+        if (i < max && counter) {
+            for (var j = 0; j <= max - i; j++) {
+
+                this.vis.clearRow(j + a + 1);
+                this.vis.updateRow(j + a + 1)
+            }
+        }
+        if (counter < Math.floor(len / max)) {
+            this.vis.setRow(++a, this.vis.centerHor("▼ ▼ ▼ ▼ ▼"));
         }
         this.vis.update()
+
+
     }
 }
