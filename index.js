@@ -82,4 +82,7 @@ module.exports = class CLIGUI {
         this.asset.search(a, b, c)
 
     }
+    table(title, data) {
+        this.asset.table(title, data)
+    }
 }

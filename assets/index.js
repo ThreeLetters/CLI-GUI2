@@ -3,6 +3,7 @@ module.exports = {
     editor: require('./editor.js'),
     box: require('./box.js'),
     prompt: require('./prompt.js'),
-    search: require('./search.js')
+    search: require('./search.js'),
+    table: require('./table.js')
 
 }
