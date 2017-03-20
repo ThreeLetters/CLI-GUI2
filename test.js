@@ -1,6 +1,6 @@
 var a = require('./index.js')
 var b = new a()
-    //b.editor('./assets/editor.js')
+    // b.editor('./assets/editor.js')
 
 var arr = [];
 for (var i = 0; i < 21; i++) arr.push(makeid())
@@ -14,7 +14,7 @@ function makeid() {
 
     return text;
 }
-b.search("hello", arr, function (a, c) {
+b.list("hello", arr, function (a, c) {
     console.log(c)
 })
 
