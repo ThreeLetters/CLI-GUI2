@@ -154,3 +154,45 @@ interface.gprompt("this is a guided prompt","type something",options,function(ma
 
 })
 ```
+
+#### interface.log - Display
+Arguments: title
+
+
+Returns: logger
+
+
+Functions:
+1. logger.log(string) - log string
+2. logger.slow(string,time,callback) - log string with typing animation
+3. logger.clear() - clear display
+4. logger.clearRow() - clear recent row
+
+
+Example:
+```js
+var logger = interface.log("this is a log display")
+logger.log("This is logged onto the display")
+```
+
+#### interface.terminal - Terminal
+Arguments: title,startchar,callback
+
+
+Returns: logger
+
+
+Functions:
+1. logger.log(string) - log string
+2. logger.slow(string,time,callback) - log string with typing animation
+3. logger.clear() - clear display
+4. logger.clearRow() - clear recent row
+
+
+Example:
+```js
+var logger = interface.terminal("this is a log display",">",function(main,output) {
+
+})
+logger.log("This is logged onto the display")
+```
