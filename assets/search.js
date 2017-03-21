@@ -96,6 +96,8 @@ module.exports = class search {
                 }
             }
 
+        } else {
+            final = opt;
         }
 
 

@@ -37,13 +37,39 @@ module.exports = class CLIGUI {
         this.visual.done()
         this.asset.done()
     }
+
     reset() {
         this.input.reset()
         this.asset.reset()
         this.visual.reset()
     }
+
+    addListener(t, f) {
+        switch (t) {
+        case "key":
+            this.input.addOListener(f);
+            break;
+        }
+    }
+    removeListener(t, f) {
+        switch (t) {
+        case "key":
+            this.input.removeOListener(f);
+            break;
+        }
+    }
+    clearListeners(t) {
+        switch (t) {
+        case "key":
+            this.input.clearOListeners();
+            break;
+        }
+    }
     list(a, b, c) {
         this.asset.list(a, b, c)
+    }
+    checklist(a, b, c) {
+        this.asset.checklist(a, b, c)
     }
     box(a, b, c, d, e, f, g) {
         var pos = this.coords.toReal(a, b, c, d)
@@ -76,6 +102,10 @@ module.exports = class CLIGUI {
     }
     prompt(a, b, c) {
         this.asset.prompt(a, b, c)
+
+    }
+    gprompt(a, b, c, d) {
+        this.asset.gprompt(a, b, c, d)
 
     }
     search(a, b, c) {

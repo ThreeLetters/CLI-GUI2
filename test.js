@@ -2,40 +2,34 @@ var a = require('./index.js')
 var b = new a()
     // b.editor('./assets/editor.js')
 
-/*
-var arr = [];
-for (var i = 0; i < 21; i++) arr.push(makeid())
 
-function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+b.gprompt("Guided Prompt", "Type something", [
+    {
+        name: "hello",
+        options: [{
+                name: "id",
+                options: ["1", "2", "3", "4"]
 
-    for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }, {
+                name: "name",
+                options: ["andrew", "song"],
+                description: "write down a name"
+        },
+            {
+                name: "test",
+                options: ["this", "is", "a", "test"]
+            }],
+        description: "This is a sample"
+},
+    {
+        name: "hello2",
+        options: [{
+            name: "num",
+            description: "Choose a number"
 
-    return text;
+        }],
+        description: "This is a test"
 }
-b.search("hello", arr, function (a, c) {
-    console.log(c)
-})
+], function (a, b) {
 
-
-*/
-/*
-b.prompt("hello", "type something", function (m, c) {
-    console.log(c)
-})
-*/
-
-var arr = [];
-for (var i = 0; i < 25; i++) {
-    var s = [];
-    for (var j = 0; j < 4; j++) s.push(i)
-    arr.push(s)
-}
-
-
-b.table("lol", {
-    thead: ["a", "b", "c", "d"],
-    data: arr
 })

@@ -16,7 +16,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-module.exports = class list {
+module.exports = class checklist {
     constructor(main, title, opt, c) {
         this.main = main;
         this.vis = main.visual
@@ -34,37 +34,37 @@ module.exports = class list {
     genOptions(opt, c) { // generate options
 
         /*
-        four methods
+            four methods
         
-        1. 
+            1. 
         
-        options: ["a","b","c"]
-        call: function(main,choice) {
+            options: ["a","b","c"]
+            call: function(main,choice) {
         
-        2. 
+            2. 
         
-        options: ["a","b","c"]
-        call: [function(){},function(){},function(){}]
+            options: ["a","b","c"]
+            call: [function(){},function(){},function(){}]
         
-        3. 
+            3. 
         
-        options/call: [{name: "a",call: function() {}}]
+            options/call: [{name: "a",call: function() {}}]
         
-        4.
+            4.
         
-        options/call: {a: function() {}}
+            options/call: {a: function() {}}
 
 
-        final output:
+            final output:
         
-        [
-        {
-        vis: (something),
-        call: (something)
-        }
+            [
+            {
+            vis: (something),
+            call: (something)
+            }
         
-        ]
-        */
+            ]
+            */
 
         var final = [];
         if (!opt[0] || !opt[0].name) { // not object array
@@ -72,14 +72,16 @@ module.exports = class list {
                 for (var i in opt) {
                     final.push({
                         name: i,
-                        call: opt[i]
+                        call: opt[i],
+                        checked: false
                     })
                 }
             } else { // is an array
                 for (var i = 0; i < opt.length; i++) {
                     final.push({
                         name: opt[i],
-                        call: (typeof c != "function") ? c[i] : null
+                        call: (typeof c != "function") ? c[i] : null,
+                        checked: false
                     })
                 }
             }
@@ -89,33 +91,43 @@ module.exports = class list {
         }
 
 
-        final.forEach((f) => {
 
-            f.vis = this.vis.fill("> " + f.name)
-        });
         return final;
     }
     onKey(key) {
         switch (key) {
         case "UP":
+
             if (this.chosen <= 0) return
             this.chosen--;
             break;
         case "DOWN":
-            if (this.chosen >= this.options.length - 1) return
+
+            if (this.chosen >= this.options.length) this.chosen = -1
             this.chosen++;
             break;
         case "ENTER":
-            if (typeof this.call == "function") {
-                this.call(this.main, this.chosen)
+            if (this.chosen != this.options.length) {
+                this.options[this.chosen].checked = !this.options[this.chosen].checked
 
-                return;
+            } else {
+                if (typeof this.call == "function") {
+                    var out = [];
+                    this.options.forEach((c, i) => {
+                        if (c.checked) out.push(i);
+                    })
+                    this.call(this.main, out);
+                }
+                this.options.forEach((c) => {
+                    if (c.checked) c.call(this.main);
+                })
             }
-            if (this.options[this.chosen].call) {
-                this.options[this.chosen].call(this.main)
-                return;
-            }
-            return
+            break;
+        case "LEFT":
+            this.chosen = this.options.length;
+            break;
+        case "RIGHT":
+            this.chosen = this.options.length;
             break;
         default:
             return
@@ -128,12 +140,12 @@ module.exports = class list {
     }
     update() {
         var len = this.options.length;
-        var max = this.vis.height - 4;
+        var max = this.vis.height - 5;
 
-        var a = 0;
+        var a = 0
 
         this.vis.setRow(a, this.vis.centerHor(this.title))
-        a++;
+        a++
 
 
 
@@ -148,26 +160,27 @@ module.exports = class list {
         var pointer = counter * max
         for (var i = 0; i < max && pointer < len; i++, pointer++) {
             a++;
+            var append = (this.options[pointer].checked) ? "● " : "○ ";
 
             if (pointer == this.chosen) {
 
-                this.vis.setRow(a, this.options[pointer].vis, '\x1b[47m\x1b[30m');
+                this.vis.setRow(a, this.vis.fill(append + this.options[pointer].name), '\x1b[47m\x1b[30m');
             } else
-                this.vis.setRow(a, this.options[pointer].vis, "\x1b[37m\x1b[40m");
+                this.vis.setRow(a, this.vis.fill(append + this.options[pointer].name), "\x1b[37m\x1b[40m");
         }
-
-
-
-        //  console.log(pointer, max)
 
         for (var j = 0; j <= max - i; j++) {
 
             this.vis.setRow(++a, this.vis.fill(""), "\x1b[37m\x1b[40m");
+
         }
 
         if (counter < Math.floor(len / max)) {
             this.vis.setRow(a, this.vis.centerHor("▼ ▼ ▼ ▼ ▼"), "\x1b[37m\x1b[40m");
         }
+        var c = (this.chosen == this.options.length) ? "\x1b[47m\x1b[30m" : "";
+        var b = (c) ? "\u001B[44m\x1b[32m" : "";
+        this.vis.setRow(++a, this.vis.centerHorArray([c + "[", " ", "D", "o", "n", "e", " ", "]" + b]));
         this.vis.update()
 
 
