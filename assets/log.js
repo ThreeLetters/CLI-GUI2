@@ -26,6 +26,9 @@ module.exports = class log {
     init() {
         this.update();
     }
+    onRemove() {
+
+    }
     log(l) {
         var r = this.wrap(l.split(""), this.vis.width)
         for (var i = 0; i < r.length; i++) {
@@ -97,6 +100,7 @@ module.exports = class log {
         this.update();
     }
     update() {
+        if (!this.vis.getClearance(this)) return; // dont update if not in focus
         this.vis.reset();
 
         this.vis.setRow(0, this.vis.centerHor(this.title));
