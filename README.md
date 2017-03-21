@@ -25,6 +25,38 @@ var CliGui = require('cli-gui2');
 var interface = new CliGui();
 ```
 
+#### interface.stop - Stop interface
+This stops the interface completely
+
+#### interface.done - Remove layer
+Used to remove "layers".
+
+#### interface.reset - Reset interface
+Resets interface
+
+#### interface.addListener
+Arguments: target,function
+
+
+Adds a listener to a target
+
+
+Available targets:
+1. key - Key presses
+
+#### interface.removeListener
+Arguments: target,function
+
+
+Removes a listener from a target
+
+#### interface.clearListeners
+Arguments: target
+
+
+clears listeners from a target
+
+
 #### interface.list - List items
 Arguments: title,items,call
 
