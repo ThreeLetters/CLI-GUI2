@@ -113,4 +113,17 @@ interface.table("This is a table",{
 })
 ```
 
+#### interface.prompt - Prompt the user (text input)
+Arguments: title,shadow,call
+
+
+The prompt funcion prompts the user for a text input. 
+
+
+Example
+```js
+interface.prompt("this is a prompt","type something",function(main,output) {
+
+})
+```
 
