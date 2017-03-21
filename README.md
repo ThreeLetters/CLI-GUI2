@@ -12,6 +12,7 @@ CLI-GUI - but much better. Graphical interface in command line.
 7. Log
 8. Terminal
 9. Box
+10. Editor
 
 
 # Documentation
@@ -120,10 +121,36 @@ Arguments: title,shadow,call
 The prompt funcion prompts the user for a text input. 
 
 
-Example
+Example:
 ```js
 interface.prompt("this is a prompt","type something",function(main,output) {
 
 })
 ```
 
+#### interface.gprompt - Guided prompt
+Arguments: title,shadow,options,call
+
+
+The guided prompt function allows for a user-guiding prompt system
+
+
+Example:
+```js
+var options = [
+  {
+    name: "hello",
+    description: "Hello world", // optional
+    options: [ // optional, sets arguments (ex: hello [arg1])
+      {
+      name: "arg1",
+      options: ["a","b","c"], // optional, sets selectable options for the argument
+      description: "argument 1" // optional
+      }  
+    ]
+  }
+]
+interface.gprompt("this is a guided prompt","type something",options,function(main,output) {
+
+})
+```
