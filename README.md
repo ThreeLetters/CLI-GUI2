@@ -8,10 +8,11 @@ CLI-GUI - but much better. Graphical interface in command line.
 3. Search
 4. Table
 5. Prompt
-6. Log
-7. Terminal
-8. Box
-9. Guided search
+6. Guided prompt
+7. Log
+8. Terminal
+9. Box
+
 
 # Documentation
 ## Installation
