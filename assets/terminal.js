@@ -130,7 +130,7 @@ module.exports = class terminal {
                     visible[pos] = '\x1b[47m\x1b[30m' + (visible[pos] || " ") + '\x1b[37m\x1b[40m';
 
                 }
-                if (!buf) visible.splice(0, 0, this.startChar);
+                if (!buf) visible = this.startChar.split("").concat(visible);
                 this.vis.setRow(a++, this.vis.fillArray(visible), "\x1b[37m\x1b[40m");
                 continue;
             }
