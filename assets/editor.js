@@ -136,14 +136,14 @@ module.exports = class editor {
     }
     left() { // left key
         this.flicker = true;
-        if (this.cursor.x <= 0) return;
+        if (this.cursor.x <= 0) return this.up();
         this.cursor.x--;
         this.update()
     }
     right() { // right key
         this.flicker = true;
         var line = this.file[this.cursor.y]
-        if (!line || this.cursor.x >= line.length) return;
+        if (!line || this.cursor.x >= line.length) return this.down();
         this.cursor.x++;
         this.update()
     }
