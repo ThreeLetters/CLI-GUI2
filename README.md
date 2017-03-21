@@ -191,8 +191,36 @@ Functions:
 
 Example:
 ```js
-var logger = interface.terminal("this is a log display",">",function(main,output) {
+var logger = interface.terminal("this is a terminal",">",function(main,output) {
 
 })
 logger.log("This is logged onto the display")
 ```
+
+#### interface.box - Popup box
+Arguments: x,y,width,height,content,options,call
+
+
+Example: 
+```js
+var logger = interface.log("this is a log display")
+function onKey(key) {
+if (key == "ESC") {
+interface.box(-20,-3,40,6,"Exit?",{
+yes: function(m) {
+m.done(); // Removes box. BTW, m === interface
+m.done(); // removes log
+},
+no: function(m) {
+m.done(); // remove box
+}
+})
+}}
+
+
+interface.addListener("key",onKey); // add keypress listener
+
+logger.log("This is logged onto the display")
+```
+
+
