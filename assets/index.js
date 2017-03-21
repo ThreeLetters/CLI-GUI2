@@ -7,6 +7,7 @@ module.exports = {
     table: require('./table.js'),
     checklist: require('./checklist.js'),
     gprompt: require('./gprompt.js'),
-    log: require('./log.js')
+    log: require('./log.js'),
+    terminal: require('./terminal.js')
 
 }

@@ -118,4 +118,7 @@ module.exports = class CLIGUI {
     log(a) {
         return this.asset.log(a)
     }
+    terminal(a, b, c) {
+        return this.asset.terminal(a, b, c)
+    }
 }
