@@ -223,4 +223,14 @@ interface.addListener("key",onKey); // add keypress listener
 logger.log("This is logged onto the display")
 ```
 
+#### interface.editor - File editor
+Arguments: file,callback
 
+
+Example:
+
+```js
+interface.editor("./path/to/something.txt",function(main,file_contents,saved?) {
+
+})
+```
