@@ -156,27 +156,37 @@ module.exports = class search {
 
 
         var buf = Math.floor(this.cursor / (this.vis.width - 1)) * (this.vis.width - 1);
-        var visible = this.text.slice(buf, buf + this.vis.width - 1).join("");
+        var visible = this.text.slice(buf, buf + this.vis.width - 1);
 
 
-
+        var shadow = [];
         if (this.chosen == -1) {
             if (this.flicker) { // add cursor
                 var pos = this.cursor - buf;
-
-                var c = visible.slice(pos, pos + 1);
-                visible = visible.slice(0, pos) + '\x1b[47m\x1b[30m' + (c ? c : " ") + "\x1b[37m\x1b[40m" + visible.slice(pos + 1);
-
+                visible[pos] = '\x1b[47m\x1b[30m' + (visible[pos] || " ") + '\x1b[37m\x1b[40m';
             }
-            if (this.text.length && this.results[0] && this.text.length < this.results[0].name.length) visible += "\x1b[2m" + this.results[0].name.substr((this.flicker) ? this.text.length + 1 : this.text.length) + "\x1b[0m";
+            if (this.text.length && this.results[0] && this.text.length < this.results[0].name.length) {
+
+                shadow.push(this.results[0].name.substr(this.text.length));
+            }
+
+
         } else if (!this.text.length) {
-            visible = "\x1b[2mSearch";
-        } else if (this.results[0]) {
-            visible = this.results[0].name;
+            shadow.push("Search");
+        } else if (this.results[this.chosen]) {
+            visible = this.results[this.chosen].name.split("");
+        }
+        if (shadow.length) {
+            visible = [];
+            var s = "\x1b[2m"
+            shadow.join("").split("").forEach((c) => {
+                visible.push(s + c);
+                s = "";
+            })
         }
 
 
-        this.vis.setRow(1, this.vis.fill(visible), "\x1b[40m\x1b[37m");
+        this.vis.setRow(1, this.vis.fillArray(visible), "\x1b[40m\x1b[37m");
 
 
         this.vis.setRow(2, this.vis.centerHor((this.text.length ? ("Searching for: " + this.text.join("") + ", ") : "") + this.results.length + " Result" + ((this.results.length == 1) ? "" : "s")))

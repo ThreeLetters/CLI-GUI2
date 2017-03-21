@@ -21,7 +21,7 @@ module.exports = class prompt {
         this.main = main;
         this.vis = main.visual;
         this.title = title;
-        this.shadow = shadow;
+        this.shadow = shadow.split("");
         this.call = call;
         this.text = [];
         this.cursor = 0;
@@ -78,21 +78,25 @@ module.exports = class prompt {
         var buf = Math.floor(this.cursor / (this.vis.width - 1)) * (this.vis.width - 1);
 
         if (this.text.length || !this.shadow) {
-            var visible = this.text.slice(buf, buf + this.vis.width - 1).join("")
+            var visible = this.text.slice(buf, buf + this.vis.width - 1)
 
 
             if (this.flicker) { // add cursor
                 var pos = this.cursor - buf;
 
-                var c = visible.slice(pos, pos + 1);
-                visible = visible.slice(0, pos) + '\x1b[47m\x1b[30m' + (c ? c : " ") + "\x1b[37m\x1b[40m" + visible.slice(pos + 1);
+                visible[pos] = '\x1b[47m\x1b[30m' + (visible[pos] || " ") + '\x1b[37m\x1b[40m';
 
             }
         } else {
-            visible = "\x1b[2m" + this.shadow
+            var visible = [];
+            var s = "\x1b[2m"
+            this.shadow.forEach((c) => {
+                visible.push(s + c);
+                s = "";
+            })
 
         }
-        this.vis.setRow(center, this.vis.fill(visible), "\x1b[0m\x1b[40m\x1b[37m");
+        this.vis.setRow(center, this.vis.fillArray(visible), "\x1b[0m\x1b[40m\x1b[37m");
         this.vis.update();
 
 

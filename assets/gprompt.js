@@ -68,6 +68,7 @@ module.exports = class guidedprompt {
         this.update()
     }
     onRemove() {
+
         clearInterval(this.interval)
     }
     enter() { // enter key
@@ -218,33 +219,32 @@ module.exports = class guidedprompt {
         var center = this.vis.height >> 1;
         this.vis.setRow(center - 2, this.vis.centerHor(this.title));
         var buf = Math.floor(this.cursor / (this.vis.width - 1)) * (this.vis.width - 1);
-
+        var visible = [];
+        var shadow = [];
         if (this.text.length || !this.shadow) {
-            var visible = this.text.slice(buf, buf + this.vis.width - 1).join("")
+            visible = this.text.slice(buf, buf + this.vis.width - 1)
 
 
             if (this.flicker && !this.t) { // add cursor
                 var pos = this.cursor - buf;
-
-                var c = visible.slice(pos, pos + 1);
-                visible = visible.slice(0, pos) + '\x1b[47m\x1b[30m' + (c ? c : " ") + "\x1b[37m\x1b[40m" + visible.slice(pos + 1);
+                visible[pos] = '\x1b[47m\x1b[30m' + (visible[pos] || " ") + '\x1b[37m\x1b[40m';
 
             }
         } else {
-            visible = "\x1b[2m" + this.shadow
-
+            shadow.push(this.shadow)
         }
-        var shadow = "";
+
+
         var t = this.text.join("").split(" ");
         if ((this.t || (this.index && t[this.index].length)) && this.results[this.chosen]) {
-            shadow += this.results[this.chosen].substr(t[this.index].length);
+            shadow.push(this.results[this.chosen].substr(t[this.index].length));
 
 
 
         } else if (this.results[0] && !this.index) {
-            shadow += this.results[0].name.substr(this.text.length);
+            shadow.push(this.results[0].name.substr(this.text.length));
         }
-        if (this.index && this.current) {
+        if (this.index && this.current && this.current.options) {
 
             var str = [];
             var excuse = (t[this.index].length || this.t) ? 0 : 1;
@@ -254,12 +254,23 @@ module.exports = class guidedprompt {
                 str.push("[" + c.name + "]");
 
             });
-            shadow += str.join(" ")
+            shadow.push(str.join(" "))
         }
         var max = this.vis.height - center - 1;
         var len = this.results.length;
+        var s = shadow.join("")
+        if (s.length) {
+            s = s.split("");
+            if (this.flicker && !this.t && this.text.length) s = s.slice(1)
+            var p = "\x1b[2m";
+            s.forEach((c) => {
+                visible.push(p + c);
+                p = "";
 
-        this.vis.setRow(center, this.vis.fill(visible + "\x1b[2m" + shadow.substr((this.flicker && !this.t) ? 1 : 0)), "\x1b[0m\x1b[40m\x1b[37m");
+            })
+        }
+
+        this.vis.setRow(center, this.vis.fillArray(visible), "\x1b[0m\x1b[40m\x1b[37m");
         if (this.index == 0) {
             if (this.results[0]) {
                 var o = 0;
@@ -352,7 +363,7 @@ module.exports = class guidedprompt {
             this.t = false;
             break;
         case "DOWN":
-            if (this.current && this.current.options && this.current.options[this.index - 1]) this.t = true;
+            if (this.current && this.current.options && this.current.options[this.index - 1] && this.current.options[this.index - 1].options) this.t = true;
             break;
         case "BACK":
             this.t = false;

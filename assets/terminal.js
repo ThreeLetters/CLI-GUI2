@@ -124,16 +124,14 @@ module.exports = class terminal {
                 d = 0;
 
                 var buf = Math.floor(this.cursor / (this.vis.width - 1)) * (this.vis.width - 1);
-                var visible = this.text.slice(buf, buf + this.vis.width - 1).join("")
+                var visible = this.text.slice(buf, buf + this.vis.width - 1)
                 if (this.flicker) { // add cursor
                     var pos = this.cursor - buf;
-
-                    var c = visible.slice(pos, pos + 1);
-                    visible = visible.slice(0, pos) + '\x1b[47m\x1b[30m' + (c ? c : " ") + "\x1b[37m\x1b[40m" + visible.slice(pos + 1);
+                    visible[pos] = '\x1b[47m\x1b[30m' + (visible[pos] || " ") + '\x1b[37m\x1b[40m';
 
                 }
-                if (!buf) visible = this.startChar + visible;
-                this.vis.setRow(a++, this.vis.fill(visible), "\x1b[37m\x1b[40m");
+                if (!buf) visible.splice(0, 0, this.startChar);
+                this.vis.setRow(a++, this.vis.fillArray(visible), "\x1b[37m\x1b[40m");
                 continue;
             }
 
