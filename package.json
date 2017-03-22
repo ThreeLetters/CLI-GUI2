@@ -1,0 +1,27 @@
+{
+  "name": "cligui2",
+  "version": "1.1.0",
+  "description": "ClI-GUI but better. Beautiful graphical interface on command line ",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThreeLetters/CLI-GUI2.git"
+  },
+  "keywords": [
+    "cli-gui",
+    "graphical",
+    "interface",
+    "input",
+    "user",
+    "interface"
+  ],
+  "author": "Andrews54757",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ThreeLetters/CLI-GUI2/issues"
+  },
+  "homepage": "https://github.com/ThreeLetters/CLI-GUI2#readme"
+}
