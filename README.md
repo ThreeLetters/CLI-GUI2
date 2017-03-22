@@ -1,4 +1,6 @@
 # CLI-GUI2
+![cligui](https://cloud.githubusercontent.com/assets/13282284/24179499/d27c03ea-0e85-11e7-9166-17956f632c2e.png)
+
 CLI-GUI - but much better. Graphical interface in command line.
 
 # Features
