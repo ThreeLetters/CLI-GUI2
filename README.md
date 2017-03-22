@@ -19,11 +19,11 @@ CLI-GUI - but much better. Graphical interface in command line.
 
 # Documentation
 ## Installation
-> npm install cli-gui2
+> npm install cligui2
 
 ## Usage
 ```js
-var CliGui = require('cli-gui2');
+var CliGui = require('cligui2');
 var interface = new CliGui();
 ```
 
