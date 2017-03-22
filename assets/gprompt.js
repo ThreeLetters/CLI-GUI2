@@ -77,20 +77,20 @@ module.exports = class guidedprompt {
             this.t = false;
             this.results[this.chosen].split("").slice(t[this.index].length).forEach((c) => {
                 this.text.push(c);
-                this.cursor++;
+
             })
             this.text.push(" ");
-            this.cursor++;
+            this.cursor = this.text.length;
             this.chosen = 0;
             this.index++;
             this.updateSearch();
         } else if (this.results[0] && !this.index && this.text.join("") != this.results[0].name) {
             this.results[0].name.split("").slice(this.text.length).forEach((c) => {
                 this.text.push(c);
-                this.cursor++;
+
             })
             this.text.push(" ");
-            this.cursor++;
+            this.cursor = this.text.length;
             this.chosen = 0;
             this.index++;
             this.current = this.results[0]
@@ -261,7 +261,7 @@ module.exports = class guidedprompt {
         var s = shadow.join("")
         if (s.length) {
             s = s.split("");
-            if (this.flicker && !this.t && this.text.length) s = s.slice(1)
+            if (this.flicker && !this.t && this.text.length && this.text.length == this.cursor) s = s.slice(1)
             var p = "\x1b[2m";
             s.forEach((c) => {
                 visible.push(p + c);

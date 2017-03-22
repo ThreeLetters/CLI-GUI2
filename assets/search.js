@@ -46,37 +46,37 @@ module.exports = class search {
     genOptions(opt, c) { // generate options
 
         /*
-            four methods
+                four methods
         
-            1. 
+                1. 
         
-            options: ["a","b","c"]
-            call: function(main,choice) {
+                options: ["a","b","c"]
+                call: function(main,choice) {
         
-            2. 
+                2. 
         
-            options: ["a","b","c"]
-            call: [function(){},function(){},function(){}]
+                options: ["a","b","c"]
+                call: [function(){},function(){},function(){}]
         
-            3. 
+                3. 
         
-            options/call: [{name: "a",call: function() {}}]
+                options/call: [{name: "a",call: function() {}}]
         
-            4.
+                4.
         
-            options/call: {a: function() {}}
+                options/call: {a: function() {}}
 
 
-            final output:
+                final output:
         
-            [
-            {
-            vis: (something),
-            call: (something)
-            }
+                [
+                {
+                vis: (something),
+                call: (something)
+                }
         
-            ]
-            */
+                ]
+                */
 
         var final = [];
         if (!opt[0] || !opt[0].name) { // not object array
@@ -177,9 +177,9 @@ module.exports = class search {
             visible = this.results[this.chosen].name.split("");
         }
         if (shadow.length) {
-            visible = [];
+
             var s = "\x1b[2m"
-            shadow.join("").split("").forEach((c) => {
+            shadow.join("").split("").slice((this.flicker && this.chosen == -1 && this.cursor == this.text.length) ? 1 : 0).forEach((c) => {
                 visible.push(s + c);
                 s = "";
             })
