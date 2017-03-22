@@ -99,6 +99,8 @@ interface.list("The fourth way",{
 
 ```
 
+<img width="562" alt="List" src="https://cloud.githubusercontent.com/assets/13282284/24178816/d95eecf8-0e81-11e7-9eb4-a74521c11f85.png">
+
 #### interface.checklist - List items as a checklist
 Arguments: title,items,call
 
@@ -121,11 +123,16 @@ interface.checklist("A is checked on by default",[
   }
 ])
 ```
+
+<img width="562" alt="Checklist" src="https://cloud.githubusercontent.com/assets/13282284/24178825/e41bba18-0e81-11e7-8513-520c9ba1709e.png">
+
 #### interface.search - List items as a searchable list
 Arguments: title,items,call
 
 
 Usage is same as the usage for the List function
+
+<img width="562" alt="Search" src="https://cloud.githubusercontent.com/assets/13282284/24178826/e8bd5450-0e81-11e7-8ffd-dd07606a8366.png">
 
 #### interface.table - List items as a table
 Arguments: title,data
@@ -138,13 +145,15 @@ Example:
 ```js
 interface.table("This is a table",{
   thead: ["a","b","c"], // this is the sticky at the top
-  data: [["hello","this","is"],["a","cool","test"]], // the contents of the table
+  data: [["hello","this","is"],["a","cool","test"],["tables","are","fun"], // the contents of the table
   sizes: [8,8,8], // optional: Sets the size for each column
   call: function(main,chosen) { // the callback
   
   }
 })
 ```
+
+<img width="562" alt="Table" src="https://cloud.githubusercontent.com/assets/13282284/24178827/eca5d9e8-0e81-11e7-8f9a-ab87134852ab.png">
 
 #### interface.prompt - Prompt the user (text input)
 Arguments: title,shadow,call
@@ -160,6 +169,7 @@ interface.prompt("this is a prompt","type something",function(main,output) {
 })
 ```
 
+<img width="562" alt="Prompt" src="https://cloud.githubusercontent.com/assets/13282284/24178836/f6941e1a-0e81-11e7-8540-319f84b751a5.png">
 #### interface.gprompt - Guided prompt
 Arguments: title,shadow,options,call
 
@@ -180,6 +190,9 @@ var options = [
       description: "argument 1" // optional
       }  
     ]
+  },
+  {
+  name: "hello_again" // spaces are not allowed
   }
 ]
 interface.gprompt("this is a guided prompt","type something",options,function(main,output) {
@@ -187,6 +200,9 @@ interface.gprompt("this is a guided prompt","type something",options,function(ma
 })
 ```
 
+<img width="562" alt="Guided prompt 1" src="https://cloud.githubusercontent.com/assets/13282284/24178838/fa71cc30-0e81-11e7-9bc4-b5f516544da1.png">
+
+<img width="562" alt="Guided prompt 2" src="https://cloud.githubusercontent.com/assets/13282284/24178843/ff229b2e-0e81-11e7-83a2-206a7634c40a.png">
 #### interface.log - Display
 Arguments: title
 
@@ -206,6 +222,8 @@ Example:
 var logger = interface.log("this is a log display")
 logger.log("This is logged onto the display")
 ```
+
+<img width="562" alt="Log" src="https://cloud.githubusercontent.com/assets/13282284/24178844/030df062-0e82-11e7-9ed1-f414041e4b7e.png">
 
 #### interface.terminal - Terminal
 Arguments: title,startchar,callback
@@ -228,6 +246,8 @@ var logger = interface.terminal("this is a terminal",">",function(main,output) {
 })
 logger.log("This is logged onto the display")
 ```
+
+<img width="562" alt="Terminal" src="https://cloud.githubusercontent.com/assets/13282284/24178851/10672db4-0e82-11e7-9f58-9310c690c251.png">
 
 #### interface.box - Popup box
 Arguments: x,y,width,height,content,options,call
@@ -266,3 +286,4 @@ interface.editor("./path/to/something.txt",function(main,file_contents,saved?) {
 
 })
 ```
+<img width="562" alt="Editor" src="https://cloud.githubusercontent.com/assets/13282284/24178853/13c5d49c-0e82-11e7-9d4d-685304728e3e.png">
