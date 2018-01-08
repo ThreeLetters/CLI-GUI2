@@ -71,7 +71,7 @@ module.exports = class Box {
         
         ]
         */
-
+        if (!opt) return [];
         var final = [];
         if (!opt[0] || !opt[0].name) { // not object array
             if (!opt[0]) { // Is an object
@@ -126,37 +126,37 @@ module.exports = class Box {
     onKey(key) {
 
         switch (key) {
-        case "UP":
-            if (this.chosen <= 0) return
-            this.chosen--;
-            break;
-        case "DOWN":
-            if (this.chosen >= this.options.length - 1) return
-            this.chosen++;
-            break;
-        case "ENTER":
-            if (typeof this.call == "function") {
-                this.call(this.main, this.chosen)
+            case "UP":
+                if (this.chosen <= 0) return
+                this.chosen--;
+                break;
+            case "DOWN":
+                if (this.chosen >= this.options.length - 1) return
+                this.chosen++;
+                break;
+            case "ENTER":
+                if (typeof this.call == "function") {
+                    this.call(this.main, this.chosen)
 
-                return;
-            }
-            if (this.options[this.chosen].call) {
-                this.options[this.chosen].call(this.main)
-                return;
-            }
-            return
-            break;
-        case "LEFT":
-            if (this.chosen <= 0) return
-            this.chosen--;
-            break;
-        case "RIGHT":
-            if (this.chosen >= this.options.length - 1) return
-            this.chosen++;
-            break;
-        default:
-            return
-            break;
+                    return;
+                }
+                if (this.options[this.chosen].call) {
+                    this.options[this.chosen].call(this.main)
+                    return;
+                }
+                return
+                break;
+            case "LEFT":
+                if (this.chosen <= 0) return
+                this.chosen--;
+                break;
+            case "RIGHT":
+                if (this.chosen >= this.options.length - 1) return
+                this.chosen++;
+                break;
+            default:
+                return
+                break;
         }
         this.update()
     }
@@ -178,11 +178,16 @@ module.exports = class Box {
         for (var i = 0; i < this.options.length; i++) {
             var name = '[' + this.options[i].name + ']'
             if (i == this.chosen) {
-                text.push('\x1b[40m\x1b[37m')
-                name.split("").forEach((a) => {
-                    text.push(a)
+
+                name.split("").forEach((a, i) => {
+
+                    if (i === 0)
+                        text.push('\x1b[40m\x1b[37m' + a);
+                    else text.push(a);
+
                 })
-                text.push('\x1b[30m\x1b[47m')
+                text[text.length - 1] = text[text.length - 1] + '\x1b[30m\x1b[47m'
+                //    text.push('\x1b[30m\x1b[47m')
             } else
                 text = text.concat(name.split(""))
             text.push(" ")
@@ -193,7 +198,7 @@ module.exports = class Box {
 
 
         for (var i = 0; i < text.length; i++) {
-            this.vis.setRow(a, this.vis.centerHorArray(text[i], this.width, text[i].length - 2), '\x1b[30m\x1b[47m', 1, this.x);
+            this.vis.setRow(a, this.vis.centerHorArray(text[i], this.width, text[i].length), '\x1b[30m\x1b[47m', 1, this.x);
             a++
         }
         this.vis.update()
