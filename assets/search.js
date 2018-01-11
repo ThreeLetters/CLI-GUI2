@@ -109,42 +109,42 @@ module.exports = class search {
     }
     onKey(key) {
         switch (key) {
-        case "UP":
-            if (this.chosen < 0) return
-            this.chosen--;
-            break;
-        case "DOWN":
-            if (this.chosen >= this.options.length - 1) return
-            this.chosen++;
-            break;
-        case "ENTER":
-            if (this.chosen == -1) return this.enter();
+            case "UP":
+                if (this.chosen < 0) return
+                this.chosen--;
+                break;
+            case "DOWN":
+                if (this.chosen >= this.options.length - 1) return
+                this.chosen++;
+                break;
+            case "ENTER":
+                if (this.chosen == -1) return this.enter();
 
-            this.out(this.results[this.chosen]);
-            return
-            break;
-        case "LEFT":
-            if (this.chosen == -1) this.left();
-            break;
-        case "RIGHT":
-            if (this.chosen == -1) this.right();
-            break;
-        case "BACK":
-            if (this.chosen == -1) this.back();
-            break;
-        case "ESC":
-            break;
-        default:
-            this.chosen = -1
-            this.key(key)
-            break;
+                this.out(this.results[this.chosen]);
+                return
+                break;
+            case "LEFT":
+                if (this.chosen == -1) this.left();
+                break;
+            case "RIGHT":
+                if (this.chosen == -1) this.right();
+                break;
+            case "BACK":
+                if (this.chosen == -1) this.back();
+                break;
+            case "ESC":
+                break;
+            default:
+                this.chosen = -1
+                this.key(key)
+                break;
         }
         this.update()
     }
     update() {
         if (!this.vis.getClearance(this)) return;
 
-        var max = this.vis.height - 6;
+        var max = this.vis.height - 5;
 
         var a = 0;
         this.vis.reset();

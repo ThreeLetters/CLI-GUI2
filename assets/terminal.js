@@ -49,7 +49,7 @@ module.exports = class terminal {
 
 
             this.data.push(r[r.length - i - 1]);
-            if (this.data.length >= this.vis.height - 3) this.data.splice(0, 1)
+            if (this.data.length >= this.vis.height - 2) this.data.splice(0, 1)
         }
         this.update();
 
@@ -60,7 +60,7 @@ module.exports = class terminal {
         var len = 0;
         var c = [];
         this.data.push(c);
-        if (this.data.length >= this.vis.height - 3) this.data.splice(0, 1)
+        if (this.data.length >= this.vis.height - 2) this.data.splice(0, 1)
         var interval = setInterval(function () {
 
             var a = l[index++]
@@ -74,7 +74,7 @@ module.exports = class terminal {
             if (len >= this.vis.width - 1) {
                 c = [];
                 this.data.push(c);
-                if (this.data.length >= this.vis.height - 3) this.data.splice(0, 1)
+                if (this.data.length >= this.vis.height - 2) this.data.splice(0, 1)
             }
             this.update();
 
@@ -119,7 +119,7 @@ module.exports = class terminal {
         this.vis.setRow(0, this.vis.centerHor(this.title))
         var a = 1;
         var d = 1;
-        for (var i = 0; i < this.vis.height - 3; i++) {
+        for (var i = 0; i < this.vis.height - 2; i++) {
             if (!this.data[i] && d) { // input
                 d = 0;
 
@@ -178,43 +178,43 @@ module.exports = class terminal {
     }
     onKey(key) {
         switch (key) {
-        case "ENTER":
-            this.i = -1
-            this.enter()
+            case "ENTER":
+                this.i = -1
+                this.enter()
 
-            break;
-        case "LEFT":
-            this.i = -1
-            this.left()
-            break;
-        case "RIGHT":
-            this.i = -1
-            this.right()
-            break;
-        case "BACK":
-            this.i = -1
-            this.back()
-            break;
-        case "UP":
-            if (this.i >= this.prev.length - 1) return;
-            this.i++;
-            if (this.prev[this.i]) this.text = this.prev[this.i].slice(0);
-            this.cursor = this.text.length;
-            this.update();
-            break;
-        case "DOWN":
-            if (this.i < 0) return;
-            this.i--;
-            if (this.prev[this.i]) this.text = this.prev[this.i].slice(0);
-            else this.text = [];
-            this.cursor = this.text.length;
-            this.update();
-            break;
-        default:
-            this.i = -1
-            if (key != "BACK" && key != "ESC")
-                this.key(key)
-            break;
+                break;
+            case "LEFT":
+                this.i = -1
+                this.left()
+                break;
+            case "RIGHT":
+                this.i = -1
+                this.right()
+                break;
+            case "BACK":
+                this.i = -1
+                this.back()
+                break;
+            case "UP":
+                if (this.i >= this.prev.length - 1) return;
+                this.i++;
+                if (this.prev[this.i]) this.text = this.prev[this.i].slice(0);
+                this.cursor = this.text.length;
+                this.update();
+                break;
+            case "DOWN":
+                if (this.i < 0) return;
+                this.i--;
+                if (this.prev[this.i]) this.text = this.prev[this.i].slice(0);
+                else this.text = [];
+                this.cursor = this.text.length;
+                this.update();
+                break;
+            default:
+                this.i = -1
+                if (key != "BACK" && key != "ESC")
+                    this.key(key)
+                break;
         }
     }
 

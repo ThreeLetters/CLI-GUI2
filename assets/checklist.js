@@ -96,42 +96,42 @@ module.exports = class checklist {
     }
     onKey(key) {
         switch (key) {
-        case "UP":
+            case "UP":
 
-            if (this.chosen <= 0) return
-            this.chosen--;
-            break;
-        case "DOWN":
+                if (this.chosen <= 0) return
+                this.chosen--;
+                break;
+            case "DOWN":
 
-            if (this.chosen >= this.options.length) this.chosen = -1
-            this.chosen++;
-            break;
-        case "ENTER":
-            if (this.chosen != this.options.length) {
-                this.options[this.chosen].checked = !this.options[this.chosen].checked
+                if (this.chosen >= this.options.length) this.chosen = -1
+                this.chosen++;
+                break;
+            case "ENTER":
+                if (this.chosen != this.options.length) {
+                    this.options[this.chosen].checked = !this.options[this.chosen].checked
 
-            } else {
-                if (typeof this.call == "function") {
-                    var out = [];
-                    this.options.forEach((c, i) => {
-                        if (c.checked) out.push(i);
+                } else {
+                    if (typeof this.call == "function") {
+                        var out = [];
+                        this.options.forEach((c, i) => {
+                            if (c.checked) out.push(i);
+                        })
+                        this.call(this.main, out);
+                    }
+                    this.options.forEach((c) => {
+                        if (c.checked) c.call(this.main);
                     })
-                    this.call(this.main, out);
                 }
-                this.options.forEach((c) => {
-                    if (c.checked) c.call(this.main);
-                })
-            }
-            break;
-        case "LEFT":
-            this.chosen = this.options.length;
-            break;
-        case "RIGHT":
-            this.chosen = this.options.length;
-            break;
-        default:
-            return
-            break;
+                break;
+            case "LEFT":
+                this.chosen = this.options.length;
+                break;
+            case "RIGHT":
+                this.chosen = this.options.length;
+                break;
+            default:
+                return
+                break;
         }
         this.update()
     }
@@ -140,7 +140,7 @@ module.exports = class checklist {
     }
     update() {
         var len = this.options.length;
-        var max = this.vis.height - 5;
+        var max = this.vis.height - 4;
 
         var a = 0
 

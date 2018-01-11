@@ -62,10 +62,10 @@ module.exports = class editor {
         this.vis.reset()
         this.vis.setRow(y, this.vis.centerHor(this.title + " press Esc to exit"))
         y++;
-        var b = this.vis.height - 3
+        var b = this.vis.height - 2
         var buf = Math.floor(this.cursor.y / b) * b
         var bufx = Math.floor(this.cursor.x / this.vis.width) * this.vis.width
-        for (var i = 0; i < this.vis.height - 3; i++) {
+        for (var i = 0; i < this.vis.height - 2; i++) {
             var ind = buf + i
             if (!this.file[ind]) {
                 var t = this.addCursor(this.vis.fill(" "), ind)
@@ -85,30 +85,30 @@ module.exports = class editor {
 
     onKey(key) { // capture keypresses
         switch (key) {
-        case "ENTER":
-            this.enter()
-            break;
-        case "LEFT":
-            this.left()
-            break;
-        case "RIGHT":
-            this.right()
-            break;
-        case "UP":
-            this.up()
-            break;
-        case "DOWN":
-            this.down()
-            break;
-        case "ESC":
-            this.esc()
-            break;
-        case "BACK":
-            this.back()
-            break;
-        default:
-            this.key(key)
-            break;
+            case "ENTER":
+                this.enter()
+                break;
+            case "LEFT":
+                this.left()
+                break;
+            case "RIGHT":
+                this.right()
+                break;
+            case "UP":
+                this.up()
+                break;
+            case "DOWN":
+                this.down()
+                break;
+            case "ESC":
+                this.esc()
+                break;
+            case "BACK":
+                this.back()
+                break;
+            default:
+                this.key(key)
+                break;
         }
     }
     key(key) { // key press

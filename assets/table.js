@@ -60,7 +60,7 @@ module.exports = class table {
 
 
         this.vis.setRow(a, this.vis.centerHor(this.genString(sizes, thead)), "\x1b[35m\x1b[46m")
-        var max = this.vis.height - 3;
+        var max = this.vis.height - 2;
         var counter = Math.floor(this.chosen / max);
         var len = leny;
         var pointer = counter * max
@@ -84,15 +84,15 @@ module.exports = class table {
     }
     onKey(key) {
         switch (key) {
-        case "UP":
-            this.up();
-            break;
-        case "DOWN":
-            this.down();
-            break;
-        case "ENTER":
-            this.enter();
-            break;
+            case "UP":
+                this.up();
+                break;
+            case "DOWN":
+                this.down();
+                break;
+            case "ENTER":
+                this.enter();
+                break;
         }
         this.update();
     }

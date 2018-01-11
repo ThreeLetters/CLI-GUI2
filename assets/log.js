@@ -35,7 +35,7 @@ module.exports = class log {
 
 
             this.data.push(r[r.length - i - 1]);
-            if (this.data.length >= this.vis.height - 2) this.data.splice(0, 1)
+            if (this.data.length >= this.vis.height - 1) this.data.splice(0, 1)
         }
         this.update();
 
@@ -46,7 +46,7 @@ module.exports = class log {
         var len = 0;
         var c = [];
         this.data.push(c);
-        if (this.data.length >= this.vis.height - 2) this.data.splice(0, 1)
+        if (this.data.length >= this.vis.height - 1) this.data.splice(0, 1)
         var interval = setInterval(function () {
 
             var a = l[index++]
@@ -60,7 +60,7 @@ module.exports = class log {
             if (len >= this.vis.width - 1) {
                 c = [];
                 this.data.push(c);
-                if (this.data.length >= this.vis.height - 2) this.data.splice(0, 1)
+                if (this.data.length >= this.vis.height - 1) this.data.splice(0, 1)
             }
             this.update();
 
@@ -104,7 +104,7 @@ module.exports = class log {
         this.vis.reset();
 
         this.vis.setRow(0, this.vis.centerHor(this.title));
-        for (var i = 0; i < this.vis.height - 3; i++) {
+        for (var i = 0; i < this.vis.height - 2; i++) {
             this.vis.setRow(i + 1, this.vis.fillArray(this.data[i] || []), "\x1b[37m\x1b[40m");
         }
 

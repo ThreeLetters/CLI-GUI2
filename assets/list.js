@@ -97,29 +97,29 @@ module.exports = class list {
     }
     onKey(key) {
         switch (key) {
-        case "UP":
-            if (this.chosen <= 0) return
-            this.chosen--;
-            break;
-        case "DOWN":
-            if (this.chosen >= this.options.length - 1) return
-            this.chosen++;
-            break;
-        case "ENTER":
-            if (typeof this.call == "function") {
-                this.call(this.main, this.chosen)
+            case "UP":
+                if (this.chosen <= 0) return
+                this.chosen--;
+                break;
+            case "DOWN":
+                if (this.chosen >= this.options.length - 1) return
+                this.chosen++;
+                break;
+            case "ENTER":
+                if (typeof this.call == "function") {
+                    this.call(this.main, this.chosen)
 
-                return;
-            }
-            if (this.options[this.chosen].call) {
-                this.options[this.chosen].call(this.main)
-                return;
-            }
-            return
-            break;
-        default:
-            return
-            break;
+                    return;
+                }
+                if (this.options[this.chosen].call) {
+                    this.options[this.chosen].call(this.main)
+                    return;
+                }
+                return
+                break;
+            default:
+                return
+                break;
         }
         this.update()
     }
@@ -128,7 +128,7 @@ module.exports = class list {
     }
     update() {
         var len = this.options.length;
-        var max = this.vis.height - 4;
+        var max = this.vis.height - 3;
 
         var a = 0;
 
